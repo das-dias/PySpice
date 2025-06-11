@@ -463,6 +463,10 @@ class Element(Statement):
         if prefix_data.multi_devices and stop_location is not None:
             remaining, stop_location = self._line.split_words(stop_location, until='=')
             self._parameters.extend(remaining)
+        # Fix missing parameters in X mosfet device model declarations
+        if prefix_data.has_variable_number_of_pins and stop_location is not None:
+            remaining, stop_location = self._line.split_words(stop_location, until='\n\r')
+            self._parameters.extend(remaining)
 
         if prefix_data.prefix in ('V', 'I') and stop_location is not None:
             # merge remaining
