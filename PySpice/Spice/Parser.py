@@ -76,6 +76,7 @@ class PrefixData:
 
         self.multi_devices = len(classes) > 1
         self.has_variable_number_of_pins = prefix in ('Q', 'X') # NPinElement, Q has 3 to 4 pins
+        self.has_optionals = prefix in ('Q', 'X')
         if self.has_variable_number_of_pins:
             self.number_of_pins = None
         else:
