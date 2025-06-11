@@ -460,13 +460,10 @@ class Element(Statement):
         # Read positionals
         number_of_positionals = prefix_data.number_of_positionals_min
         if number_of_positionals and stop_location is not None: # model is optional
-            self._parameters, stop_location = self._line.read_words(stop_location, number_of_positionals)
+            additional, stop_location = self._line.read_words(stop_location, number_of_positionals)
+            self._parameters.extend(additional)
         if prefix_data.multi_devices and stop_location is not None:
             remaining, stop_location = self._line.split_words(stop_location, until='=')
-            self._parameters.extend(remaining)
-        # Fix missing parameters in X mosfet device model declarations
-        if prefix_data.has_variable_number_of_pins and stop_location is not None:
-            remaining, stop_location = self._line.split_words(stop_location, until='\n\r')
             self._parameters.extend(remaining)
 
         if prefix_data.prefix in ('V', 'I') and stop_location is not None:
