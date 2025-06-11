@@ -833,6 +833,7 @@ class SpiceParser:
         self._end_of_line_comment = end_of_line_comment
 
         lines = self._merge_lines(raw_lines)
+        print(lines)
         self._title = None
         self._statements = self._parse(lines=lines, recurse=recurse, section=section)
         self._find_sections()
