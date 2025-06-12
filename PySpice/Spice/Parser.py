@@ -459,7 +459,7 @@ class Element(Statement):
 
         # Read positionals
         number_of_positionals = prefix_data.number_of_positionals_min
-        if number_of_positionals and stop_location is not None: # model is optional
+        if number_of_positionals and (not prefix_data.has_optionals) and stop_location is not None: # model is optional
             additional, stop_location = self._line.read_words(stop_location, number_of_positionals)
             self._parameters.extend(additional)
         if prefix_data.multi_devices and stop_location is not None:
@@ -535,11 +535,10 @@ class Element(Statement):
 
         nodes = self.translate_ground_node(ground)
         args = [self._name]
-        args += nodes + self._parameters
-        #if self._prefix != 'X':
-        #    args += nodes + self._parameters
-        #else: # != Spice
-        #    args += self._parameters + nodes
+        if self._prefix != 'X':
+            args += nodes + self._parameters
+        else: # != Spice
+            args += self._parameters + nodes
         args = self.values_to_python(args)
         kwargs = self.kwargs_to_python(self._dict_parameters)
         return '{}.{}({})'.format(netlist_name, self._prefix, self.join_args(args + kwargs)) + os.linesep
