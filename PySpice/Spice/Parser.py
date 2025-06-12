@@ -535,10 +535,11 @@ class Element(Statement):
 
         nodes = self.translate_ground_node(ground)
         args = [self._name]
-        if self._prefix != 'X':
-            args += nodes + self._parameters
-        else: # != Spice
-            args += self._parameters + nodes
+        args += nodes + self._parameters
+        #if self._prefix != 'X':
+        #    args += nodes + self._parameters
+        #else: # != Spice
+        #    args += self._parameters + nodes
         args = self.values_to_python(args)
         kwargs = self.kwargs_to_python(self._dict_parameters)
         return '{}.{}({})'.format(netlist_name, self._prefix, self.join_args(args + kwargs)) + os.linesep
